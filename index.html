@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unbound Set</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Preload the BootUp Sound and the Transfer Sound -->
+  <audio id="boot-start" src="assets/bootStart.wav" preload="auto"></audio>
+  <audio id="whoosh-sound" src="assets/Whoosh.wav" preload="auto"></audio>
+
+  <!-- The Sound Effect of TypeText as text generates in the Terminal + Flash Bang during Recalibration -->
+  <audio id="type-sound-1" src="assets/typeSound1.wav" preload="auto"></audio>
+  <audio id="type-sound-2" src="assets/typeSound2.wav" preload="auto"></audio>
+  <audio id="type-sound-3" src="assets/typeSound3.wav" preload="auto"></audio>
+  <audio id="type-sound-4" src="assets/typeSound4.wav" preload="auto"></audio>
+  <audio id="flash-sound" src="assets/flashed.mp3" preload="auto"></audio>
+
+  <!-- Home Theme Music Tracks based on Preset -->
+  <audio id="home-theme" src="assets/HomeTheme.wav" preload="auto" loop></audio>
+  <audio id="home-theme" src="assets/HomeTheme2.mp3" preload="auto" loop></audio>
+  <audio id="home-theme" src="assets/HomeTheme3.mp3" preload="auto" loop></audio>
+  <audio id="home-theme" src="assets/HomeTheme4.mp3" preload="auto" loop></audio>
+  <audio id="home-theme" src="assets/HomeTheme5.mp3" preload="auto" loop></audio>
+
+  <!-- Welcome Message followed by Unbound Set Load Sound Effects -->
+  <audio id="welcome-message-glitch" src="assets/welcomeMessageGlitch.wav" preload="auto"></audio>
+  <audio id="unbound-set-load" src="assets/unboundSetLoad.wav" preload="auto"></audio>
+
+  <!-- Error Sound Effects During Transfer (Intentoonal)-->
+  <audio id="error-large-sound" src="assets/Error_Large.wav" preload="auto"></audio>
+  <audio id="error-sound" src="assets/Error.wav" preload="auto"></audio>
+
+  <!-- The Starting Boot Screen Div when a user first joins the site-->
+  <div id="boot-gate" class="boot-gate">
+    <div class="boot-gate-text">PRESS ANY KEY TO BOOT</div>
+  </div>
+
+  <!-- The Cover Screen to fade away from for the Terminal Screen -->
+  <div id="screen" class="screen" aria-live="polite" aria-atomic="false" style="opacity:0">
+    <!-- The Boot Sequence and Status Update Terminal-->
+    <div class="crt" id="crt"></div>
+    <!-- The Empty Home Page Dive to ill with Java Script UI -->
+    <div id="home-root"></div>
+  </div>
+
+  <!-- The Implementation of the JavaScript Files Whose Function Relates to its Name -->
+  <script src="boot-sequence.js" defer></script>
+  <script src="status-update.js" defer></script>
+  <script src="home-page.js" defer></script> 
+</body>
+</html>

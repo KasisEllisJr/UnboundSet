@@ -1,0 +1,1392 @@
+/* Root CSS Variables for Theming */
+:root{
+  --bg: #000;
+  --fg: #ffffff;
+  --muted: #9aa0a6;
+  --accent: #00FF41;
+}
+
+/* Font Faces for Various Retro and Game-Inspired Fonts */
+@font-face {
+  font-family: 'VCR OSD Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('VCR_OSD_MONO_1.001.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'RiskOfRain';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('riskofrain.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Deltarune';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('deltarune.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'HadesGame';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('hades.ttf') format('truetype');
+}
+
+html, body { height: 100%; }
+
+/* Global Body Styles That Uses Root CSS Variables */
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'VCR OSD Mono', ui-monospace, 
+  SFMono-Regular, Menlo, Monaco, Consolas, 
+  "Liberation Mono", "Courier New", monospace;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Screen and CRT Styles for Terminal Simulation */
+.screen {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100dvh;
+  opacity: 0;
+}
+.crt {
+  padding: 24px 20px;
+  white-space: pre-wrap;
+}
+
+.line   { color: var(--fg); }
+.muted  { color: var(--muted); }
+.accent { color: var(--accent); }
+
+.gap { height: 0.9rem; }
+
+/* Caret Styles with Blinking Animation */
+.caret { display: inline-block; 
+  width: 0.6ch; 
+}
+.caret::after { content: "▌"; 
+  opacity: 1;
+  animation: blink 1s step-end infinite;
+}
+
+/* Blinking Animation for Caret */
+@keyframes blink { 
+  0%, 49% { opacity: 1 } 
+  50%, 100% { opacity: 0 } }
+
+/* Cursor Hiding During Calibration */
+body.calibrating { cursor: none; }
+
+/* Fake Cursor Element for Custom Cursor Display */
+.fake-cursor{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  background: url('assets/cursor_hide.png') no-repeat center center;
+  background-size: contain;
+  image-rendering: pixelated;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+}
+
+/* White Flash Bang Effect */
+.white-flash{
+  position: fixed; inset: 0;
+  background: #fff; 
+  opacity: 0; 
+  z-index: 9998;
+  transition: opacity 1.88s ease;
+}
+
+.bar-bracket { color: #fff; }
+
+/* The Progress Bar Spacers and Sections */
+.section { margin: 14px 0; }
+.section .title   { margin-bottom: 8px; }
+.section .barline { margin-bottom: 6px; }
+.section .subtext { margin-top: 4px; }
+.bar-track { display: inline-block; vertical-align: baseline; }
+.bar-fill, .bar-pad {
+  display: inline-block;
+  white-space: pre;
+  line-height: 1em;
+  letter-spacing: 0;
+}
+
+/* Transport Banner and Error Styles */
+.boot-gate {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  z-index: 5000;
+}
+.transport-banner-text {
+  font-size: clamp(2.1rem, 5vw, 3.8rem);
+  color: var(--fg);
+  letter-spacing: 0.20em;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 6px #000,
+    0 0 12px #000;
+}
+.transport-error-text {
+  color: #ff4b4b;
+  text-shadow:
+    0 0 6px #ff0000,
+    0 0 14px #ff0000;
+  animation:
+    error-pop 0.12s ease-out,
+    error-flicker 0.18s steps(2, end) 3;
+}
+
+/* First Error Pop Animation */
+@keyframes error-pop {
+  0% {
+    opacity: 0;
+    transform: scale(1.12);
+    letter-spacing: 0.35em;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    letter-spacing: 0.1em;
+  }
+}
+
+/* Repetative Error Flicker Animation */
+@keyframes error-flicker {
+  0%, 100% {
+    opacity: 1;
+    transform: translate(0, 0);
+    filter: none;
+  }
+  30% {
+    opacity: 0.4;
+  }
+  60% {
+    transform: translate(1px, 0);
+    filter: blur(0.5px);
+  }
+}
+
+/* Transport Banner Container */
+.transport-banner {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 4500;
+}
+
+/* === ERROR BAR ANIMATION (RED BAR THAT GROWS DOWN THE SCREEN) === */
+.transport-error-bar.grow {
+  animation: error-bar-grow 2s ease-out forwards;
+}
+
+@keyframes error-bar-grow {
+  from { height: 4px; }
+  to   { height: 40vh; }
+}
+
+/* Main error text styling + pop + flicker effect */
+.transport-error-text {
+  color: #ff4b4b;
+  text-shadow:
+    0 0 8px #ff0000,
+    0 0 18px #ff0000;
+  animation:
+    error-pop 0.12s ease-out,
+    error-flicker 0.18s steps(2, end) 3;
+}
+
+/* Error text "pop in" animation */
+@keyframes error-pop {
+  0% {
+    opacity: 0;
+    transform: scale(1.12);
+    letter-spacing: 0.35em;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    letter-spacing: 0.1em;
+  }
+}
+
+/* Quick flicker / jitter on error text */
+@keyframes error-flicker {
+  0%, 100% {
+    opacity: 1;
+    transform: translate(0, 0);
+    filter: none;
+  }
+  30% {
+    opacity: 0.4;
+  }
+  60% {
+    transform: translate(1px, 0);
+    filter: blur(0.5px);
+  }
+}
+
+/* Inner container for the transport banner (lets us absolutely-position clones) */
+.transport-banner-inner {
+  position: relative;
+}
+
+/* Base transport text and its glitch clone share these properties */
+.transport-banner-text,
+.transport-banner-text-clone {
+  position: relative;
+}
+
+/* Glitch clone version of transport text positioned on top of the original */
+.transport-banner-text-clone {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  color: #ee4848;
+  text-shadow:
+  0 0 8px #ff0000,
+  0 0 18px #ff0000;
+}
+
+/* One row in the transport scramble (glitchy code-looking text) */
+.transport-scramble-row {
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  opacity: 0.85;
+}
+
+/* Small, single-use jitter animation for glitch effects */
+@keyframes glitch-jitter {
+  0%   { transform: translate(0, 0);   filter: none; }
+  20%  { transform: translate(-1px, 0); }
+  40%  { transform: translate(2px, 0);  }
+  60%  { transform: translate(-2px, 0); }
+  80%  { transform: translate(1px, 0);  }
+  100% { transform: translate(0, 0);   filter: none; }
+}
+
+/* Utility class to trigger the glitch-jitter animation once */
+.glitch-once {
+  animation: glitch-jitter 0.18s steps(2, end);
+}
+
+/* === WHITE FLOOD OVERLAY (GLITCH MATRIX THAT FILLS THE SCREEN) === */
+.white-flood {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  color: #ff4b4b;
+  z-index: 4600;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-family: 'VCR OSD Mono', ui-monospace, SFMono-Regular,
+               Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+               monospace;
+  padding: 0.5rem 0.75rem;
+  transition: background-color 0.7s ease;
+}
+
+/* Text field inside the white flood that renders the ASCII grid */
+.white-flood-field {
+  white-space: pre;
+  font-size: 0.9rem;
+  line-height: 1.1;
+}
+
+/* === MAIN HUB TITLE BAR (WELCOME TO... UNBOUND SET) === */
+.main-hub-title {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25em;
+  z-index: 4700;
+  pointer-events: none;
+  background: transparent;
+  transform: translateY(40vh);
+  transition:
+    transform 0.8s ease,
+    background-color 0.5s ease,
+    box-shadow 0.5s ease;
+}
+
+/* Shared title text styling */
+.main-hub-title-text {
+  font-size: clamp(2rem, 5vw, 3.7rem);
+  color: #000000;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* First line: "WELCOME TO..." smaller and more subtle */
+.main-hub-title-line1 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  opacity: 0.95;
+}
+
+/* Second line: main logo text spacing tweak */
+.main-hub-title-line2 {
+  margin-top: 0.15em;
+}
+
+/* Docked state: transform the title into a persistent top nav bar */
+.main-hub-title.main-hub-title--docked {
+  transform: translateY(0);
+  background: rgba(0, 0, 0, 0.9);
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  pointer-events: auto;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+}
+
+/* Hide line 1 when docked; only keep the UNBOUND SET title */
+.main-hub-title-line1--hidden {
+  opacity: 0;
+  display: none;
+}
+
+/* Docked title text color override */
+.main-hub-title.main-hub-title--docked .main-hub-title-text {
+  color: #ffffff;
+  letter-spacing: 0.18em;
+}
+
+/* === BOOT GATE TEXT / PROMPT === */
+.boot-gate-text {
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  color: var(--fg);
+  letter-spacing: 0.18em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Hidden / fading state for the boot gate overlay */
+.boot-gate.boot-gate-hide {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* Make the "PRESS ANY KEY TO BOOT" text blink */
+.boot-gate-text {
+  animation: blink 1s step-end infinite;
+}
+
+/* === STATUS PAGE CODE COLUMNS (THREE FAKE C++ CODE STREAMS) === */
+.code-columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Single code column styling (one stream) */
+.code-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  overflow: hidden;
+  padding: 0.5rem;
+  background: #000;
+  font-family: 'VCR OSD Mono', ui-monospace, SFMono-Regular,
+               Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+               monospace;
+  scrollbar-width: none;
+}
+
+/* Hide scrollbars in WebKit browsers */
+.code-column::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* One code line block */
+.code-line {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+/* CRT container (holds typed lines, status text, and code columns) */
+#crt {
+  display: flex;
+  flex-direction: column;
+}
+
+/* === HOME HUB BASE STATE === */
+body.home-active {
+  background: #000000;
+  color: #ffffff;
+}
+
+/* Root container for home hub, sits under the title bar */
+#home-root.home-root {
+  position: relative;
+  grid-row: 2 / -1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Pure white background layer behind everything else */
+.home-bg-layer {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  z-index: 0;
+}
+
+/* Layer where glyph characters are spawned and animated */
+.home-glyph-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Single glyph character in the background sea */
+.glyph-char {
+  position: absolute;
+  bottom: -2rem;
+  color: #000000;
+  font-family: 'VCR OSD Mono', ui-monospace, monospace;
+  animation-name: glyph-float-up;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* Glyph floats upward and fades in/out over time */
+@keyframes glyph-float-up {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  60% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-10000%);
+    opacity: 0;
+  }
+}
+
+/* Dark overlay to make text readable over the moving glyph background */
+.home-dark-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+
+/* Main content wrapper (nav + panels + footer) */
+.home-content {
+  position: relative;
+  z-index: 3;
+  height: 100%;
+  padding: 3.5rem 8vw 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  overflow-y: auto;
+}
+
+/* === NAVIGATION BAR AT TOP OF HUB === */
+.home-nav {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+/* Header row inside nav: logo + hamburger button */
+.home-nav-header {
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* UNBOUND SET logo text styling */
+.home-nav-logo {
+  font-size: 0.9rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Container holding nav buttons (Home / About / For Fun / Settings) */
+.home-nav-items {
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 0.6rem;
+}
+
+/* HAMBURGER BUTTON – hidden by default on larger screens */
+.home-nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 36px;
+  height: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: transparent;
+  padding: 4px;
+  cursor: pointer;
+}
+
+/* Single bar inside the hamburger icon */
+.home-nav-toggle-bar {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: #ffffff;
+  margin: 4px 0;
+}
+
+/* Base nav button styling */
+.home-nav-item {
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 0.4rem 1.6rem;
+  font-family: 'VCR OSD Mono', ui-monospace, monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.12s ease;
+}
+
+/* Slight lift on hover */
+.home-nav-item:hover {
+  transform: translateY(-1px);
+}
+
+/* Active nav item (current panel) */
+.home-nav-item.is-active {
+  background: #ffffff;
+  color: #000000;
+}
+
+/* Duplicate hamburger rules (kept for clarity) */
+.home-nav-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 36px;
+  height: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: transparent;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.home-nav-toggle-bar {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: #ffffff;
+  margin: 4px 0;
+}
+
+/* Repeated hover styles for nav items */
+.home-nav-item:hover {
+  transform: translateY(-1px);
+}
+
+.home-nav-item.is-active {
+  background: #ffffff;
+  color: #000000;
+}
+
+/* === PANELS: HOME / ABOUT / FUN / SETTINGS === */
+.home-panels {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Hide panels when they are not the active node */
+.home-panel.is-hidden {
+  display: none;
+}
+
+/* Base home panel container (outer wrapper) */
+.home-panel {
+  max-width: 960px;
+  width: 100%;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Inner cards within each panel */
+.home-panel > div {
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 1.6rem 2.1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Shared heading style inside panel cards */
+.home-panel > div h1 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  letter-spacing: 0.18em;
+}
+
+/* Shared paragraph style inside panel cards */
+.home-panel > div p {
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+}
+
+/* Redundant panel headings (kept for consistency) */
+.home-panel h1 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  letter-spacing: 0.18em;
+}
+
+.home-panel p {
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+}
+
+/* Root-level home wrapper (full-viewport height) */
+.home-root {
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Alternate home-content declaration used in other layouts */
+.home-content {
+  position: relative;
+  padding: 6rem 8vw 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Alternate nav layout (flex row with gap) */
+.home-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Alternate nav item styling (very similar to above) */
+.home-nav-item {
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 0.45rem 1.6rem;
+  font-family: 'VCR OSD Mono', ui-monospace, monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.home-nav-item.is-active {
+  background: #ffffff;
+  color: #000000;
+}
+
+/* Alternate panel styling (single-box version) */
+.home-panel {
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 1.6rem 2.2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* === ABOUT PORTRAIT IMAGE === */
+.about-portrait {
+  display: block;
+  align-items: left;
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  margin: 0 0 1rem 0;
+}
+
+/* === FUN PANEL: YOUTUBE EMBED FRAME === */
+.fun-embed-frame {
+  margin-top: 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 4px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  height: 560px;
+  background: #000;
+}
+
+.fun-embed-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Small auxiliary text (muted helper notes) */
+.small-note {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+/* === FUN PANEL: GAME CARD GALLERY === */
+.fun-gallery {
+  margin-top: 1.6rem;
+}
+
+.fun-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-top: 0.8rem;
+}
+
+/* Single game card container */
+.fun-game-card {
+  background: #050505;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.4rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.75);
+}
+
+.fun-game-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.fun-game-card figcaption {
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+/* Another nav layout variant */
+.home-nav {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 0.8rem;
+}
+
+/* Nav item styling (duplicated; same visual spec) */
+.home-nav-item {
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 0.4rem 1.6rem;
+  font-family: 'VCR OSD Mono', ui-monospace, monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.12s ease;
+}
+
+.home-nav-item:hover {
+  transform: translateY(-1px);
+}
+
+.home-nav-item.is-active {
+  background: #ffffff;
+  color: #000000;
+}
+
+/* === FOOTER LINE AT BOTTOM OF HUB === */
+.home-footer {
+  width: 100%;
+  max-width: 960px;
+  margin: 1.5rem auto 0;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  text-align: center;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.home-footer p {
+  margin: 0.15rem 0;
+}
+
+/* === PHOTO GALLERY FOR FUN PANEL === */
+.photo-gallery-grid {
+  margin-top: 0.8rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.9rem;
+}
+
+.photo-thumb {
+  display: block;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: #050505;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7);
+}
+
+.photo-thumb img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+.photo-thumb:hover img {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* === SETTINGS PANEL: PRESET LIST, DROPDOWN, AND SLIDER === */
+.settings-preset-list {
+  margin: 0.7rem 0 1.1rem;
+  padding-left: 1.1rem;
+  font-size: 0.85rem;
+}
+
+.settings-preset-list li {
+  margin-bottom: 0.35rem;
+}
+
+.settings-label {
+  display: block;
+  margin: 0.4rem 0 0.25rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+}
+
+.settings-select {
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 0.4rem 0.9rem;
+  font-family: 'VCR OSD Mono', ui-monospace, monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+}
+
+.settings-range-row {
+  margin-top: 1.1rem;
+}
+
+.settings-range-value {
+  margin-left: 0.4rem;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.settings-range {
+  width: 100%;
+  max-width: 320px;
+  margin-top: 0.25rem;
+  background: transparent;
+  accent-color: #ffffff;
+}
+
+/* === THEME: V1 (ULTRAKILL-INSPIRED WAR MACHINE) === */
+body[data-theme="V1"].home-active .home-bg-layer {
+  background:
+    radial-gradient(circle at 50% 0%,
+      #3e4b66 0%,
+      #252c3c 32%,
+      #141925 60%,
+      #05070d 100%);
+}
+
+body[data-theme="V1"].home-active .glyph-char {
+  color: #ffd447;
+}
+
+body[data-theme="V1"].home-active
+  .main-hub-title.main-hub-title--docked {
+  background: #141925;
+  border-bottom: 1px solid #ffd447;
+  box-shadow: 0 6px 26px rgba(0, 0, 0, 0.9);
+}
+
+body[data-theme="V1"].home-active
+  .main-hub-title.main-hub-title--docked
+  .main-hub-title-text {
+  color: #f0f4ff;
+}
+
+body[data-theme="V1"].home-active .home-panel {
+  background: #181b26;
+  color: #f0f4ff;
+  border-color: #3e4b66;
+}
+
+body[data-theme="V1"].home-active .home-panel h1,
+body[data-theme="V1"].home-active .home-panel h2,
+body[data-theme="V1"].home-active .home-panel p,
+body[data-theme="V1"].home-active .home-panel li {
+  color: #f0f4ff;
+}
+
+body[data-theme="V1"].home-active .home-panel > div {
+  background: #181b26;
+  color: #f0f4ff;
+  border-color: #ffd447;
+}
+
+body[data-theme="V1"].home-active .home-panel > div h1,
+body[data-theme="V1"].home-active .home-panel > div h2,
+body[data-theme="V1"].home-active .home-panel > div p,
+body[data-theme="V1"].home-active .home-panel > div li {
+  color: #f0f4ff;
+}
+
+body[data-theme="V1"].home-active .fun-game-card {
+  background: #181b26;
+  color: #f0f4ff;
+  border-color: #ffd447;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75);
+}
+
+body[data-theme="V1"].home-active .fun-game-card figcaption {
+  color: #dde4ff;
+}
+
+body[data-theme="V1"].home-active .home-nav-item {
+  background: #05070d;
+  color: #ffd447;
+  border-color: #3e4b66;
+}
+
+body[data-theme="V1"].home-active .home-nav-item.is-active {
+  background: #ffd447;
+  color: #141925;
+}
+
+/* === THEME: DARK FOUNTAIN (DELTARUNE-INSPIRED) === */
+body[data-theme="DARKFOUNTAIN"].home-active .home-bg-layer {
+  background:
+    radial-gradient(circle at 50% 120%,
+      #00e5ff 0%,
+      #00cfff 28%,
+      #0084ff 50%,
+      #02122c 75%,
+      #000000 100%);
+}
+
+body[data-theme="DARKFOUNTAIN"].home-active .glyph-char {
+  color: #b4f5ff;
+}
+
+body[data-theme="DARKFOUNTAIN"].home-active
+  .main-hub-title.main-hub-title--docked {
+  background: #021a3a;
+  opacity: 0.96;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.85);
+}
+
+body[data-theme="DARKFOUNTAIN"].home-active
+  .main-hub-title.main-hub-title--docked
+  .main-hub-title-text {
+  color: #e9fbff;
+}
+
+body[data-theme="DARKFOUNTAIN"].home-active .home-panel {
+  background: #041024;
+  color: #e3f4ff;
+  border-color: #48e5ff;
+}
+
+body[data-theme="DARKFOUNTAIN"].home-active .home-panel h1,
+body[data-theme="DARKFOUNTAIN"].home-active .home-panel h2,
+body[data-theme="DARKFOUNTAIN"].home-active .home-panel p,
+body[data-theme="DARKFOUNTAIN"].home-active .home-panel li {
+  color: #e3f4ff;
+}
+
+body[data-theme="DARKFOUNTAIN"].home-active .home-panel > div {
+  background: #041024;
+  color: #e3f4ff;
+  border-color: #48e5ff;
+}
+
+body[data-theme="DARKFOUNTAIN"].home-active .home-panel > div h1,
+body[data-theme="DARKFOUNTAIN"].home-active .home-panel > div h2,
+body[data-theme="DARKFOUNTAIN"].home-active .home-panel > div p,
+body[data-theme="DARKFOUNTAIN"].home-active .home-panel > div li {
+  color: #e3f4ff;
+}
+
+body[data-theme="DARKFOUNTAIN"].home-active .fun-game-card {
+  background: #05142c;
+  color: #e3f4ff;
+  border-color: #48e5ff;
+}
+
+body[data-theme="DARKFOUNTAIN"].home-active .fun-game-card figcaption {
+  color: #d7f0ff;
+}
+
+body[data-theme="DARKFOUNTAIN"].home-active .home-nav-item {
+  background: #020814;
+  color: #9fe7ff;
+  border-color: #48e5ff;
+}
+
+body[data-theme="DARKFOUNTAIN"].home-active .home-nav-item.is-active {
+  background: #48e5ff;
+  color: #041024;
+}
+
+/* Use DELTARUNE-styled font family when Dark Fountain is active */
+body[data-theme="DARKFOUNTAIN"].home-active,
+body[data-theme="DARKFOUNTAIN"].home-active .home-panel,
+body[data-theme="DARKFOUNTAIN"].home-active .home-panel > div,
+body[data-theme="DARKFOUNTAIN"].home-active .home-nav-item,
+body[data-theme="DARKFOUNTAIN"].home-active .main-hub-title-text,
+body[data-theme="DARKFOUNTAIN"].home-active .fun-game-card,
+body[data-theme="DARKFOUNTAIN"].home-active .inline-tag {
+  font-family: 'Deltarune', 'VCR OSD Mono', ui-monospace, monospace;
+}
+
+/* === THEME: FORECAST (RISK OF RAIN-INSPIRED) === */
+body[data-theme="FORECAST"].home-active .home-bg-layer {
+  background:
+    radial-gradient(circle at 20% 10%,
+      #ff8df5 0%,
+      #ff62d5 14%,
+      transparent 40%),
+    radial-gradient(circle at 80% 20%,
+      #9b7eff 0%,
+      #6a3cff 25%,
+      transparent 55%),
+    radial-gradient(circle at 50% 90%,
+      #ff5bbd 0%,
+      #8a3bff 40%,
+      transparent 75%),
+    #050012;
+}
+
+body[data-theme="FORECAST"].home-active .glyph-char {
+  color: #ff8bf0;
+}
+
+body[data-theme="FORECAST"].home-active
+  .main-hub-title.main-hub-title--docked {
+  background: #170325;
+  border-bottom: 1px solid #ff8bf0;
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.9);
+}
+
+body[data-theme="FORECAST"].home-active
+  .main-hub-title.main-hub-title--docked
+  .main-hub-title-text {
+  color: #ffe9ff;
+}
+
+body[data-theme="FORECAST"].home-active .home-panel {
+  background: #120020;
+  color: #ffe9ff;
+  border-color: #ff8bf0;
+}
+
+body[data-theme="FORECAST"].home-active .home-panel h1,
+body[data-theme="FORECAST"].home-active .home-panel h2,
+body[data-theme="FORECAST"].home-active .home-panel p,
+body[data-theme="FORECAST"].home-active .home-panel li {
+  color: #ffe9ff;
+}
+
+body[data-theme="FORECAST"].home-active .home-panel > div {
+  background: #120020;
+  color: #ffe9ff;
+  border-color: #ff8bf0;
+}
+
+body[data-theme="FORECAST"].home-active .home-panel > div h1,
+body[data-theme="FORECAST"].home-active .home-panel > div h2,
+body[data-theme="FORECAST"].home-active .home-panel > div p,
+body[data-theme="FORECAST"].home-active .home-panel > div li {
+  color: #ffe9ff;
+}
+
+body[data-theme="FORECAST"].home-active .fun-game-card {
+  background: #16002a;
+  color: #ffe9ff;
+  border-color: #ff8bf0;
+}
+
+body[data-theme="FORECAST"].home-active .fun-game-card figcaption {
+  color: #f4ddff;
+}
+
+body[data-theme="FORECAST"].home-active .home-nav-item {
+  background: #0b0014;
+  color: #ffb6ff;
+  border-color: #ff8bf0;
+}
+
+body[data-theme="FORECAST"].home-active .home-nav-item.is-active {
+  background: #ff8bf0;
+  color: #16002a;
+}
+
+/* Use Risk of Rain-styled font family when FORECAST is active */
+body[data-theme="FORECAST"].home-active,
+body[data-theme="FORECAST"].home-active .home-panel,
+body[data-theme="FORECAST"].home-active .home-panel > div,
+body[data-theme="FORECAST"].home-active .home-nav-item,
+body[data-theme="FORECAST"].home-active .main-hub-title-text,
+body[data-theme="FORECAST"].home-active .fun-game-card,
+body[data-theme="FORECAST"].home-active .inline-tag {
+  font-family: 'RiskOfRain', 'VCR OSD Mono', ui-monospace, monospace;
+}
+
+/* === THEME: HADES (HADES GAME-INSPIRED) === */
+body[data-theme="HADES"].home-active .home-bg-layer {
+  background:
+    radial-gradient(circle at 20% 0%,
+      #ff4b3a 0%,
+      #b01010 28%,
+      transparent 55%),
+    radial-gradient(circle at 80% 30%,
+      #ffb347 0%,
+      #ff6737 20%,
+      transparent 50%),
+    #1a0004;
+}
+
+body[data-theme="HADES"].home-active .glyph-char {
+  color: #ffb347;
+}
+
+body[data-theme="HADES"].home-active
+  .main-hub-title.main-hub-title--docked {
+  background: #200006;
+  border-bottom: 1px solid #ffb347;
+  box-shadow: 0 6px 26px rgba(0, 0, 0, 0.9);
+}
+
+body[data-theme="HADES"].home-active
+  .main-hub-title.main-hub-title--docked
+  .main-hub-title-text {
+  color: #ffece0;
+}
+
+body[data-theme="HADES"].home-active .home-panel {
+  background: #140104;
+  color: #ffece0;
+  border-color: #ff4b3a;
+}
+
+body[data-theme="HADES"].home-active .home-panel h1,
+body[data-theme="HADES"].home-active .home-panel h2,
+body[data-theme="HADES"].home-active .home-panel p,
+body[data-theme="HADES"].home-active .home-panel li {
+  color: #ffece0;
+}
+
+body[data-theme="HADES"].home-active .home-panel > div {
+  background: #140104;
+  color: #ffece0;
+  border-color: #ffb347;
+}
+
+body[data-theme="HADES"].home-active .home-panel > div h1,
+body[data-theme="HADES"].home-active .home-panel > div h2,
+body[data-theme="HADES"].home-active .home-panel > div p,
+body[data-theme="HADES"].home-active .home-panel > div li {
+  color: #ffece0;
+}
+
+body[data-theme="HADES"].home-active .fun-game-card {
+  background: #190106;
+  color: #ffece0;
+  border-color: #ff4b3a;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+body[data-theme="HADES"].home-active .fun-game-card figcaption {
+  color: #ffd9c7;
+}
+
+body[data-theme="HADES"].home-active .home-nav-item {
+  background: #0b0003;
+  color: #ffcf7a;
+  border-color: #ff4b3a;
+}
+
+body[data-theme="HADES"].home-active .home-nav-item.is-active {
+  background: #ff4b3a;
+  color: #140104;
+}
+
+/* Use Hades-styled font family when HADES theme is active */
+body[data-theme="HADES"].home-active,
+body[data-theme="HADES"].home-active .home-panel,
+body[data-theme="HADES"].home-active .home-panel > div,
+body[data-theme="HADES"].home-active .home-nav-item,
+body[data-theme="HADES"].home-active .main-hub-title-text,
+body[data-theme="HADES"].home-active .fun-game-card,
+body[data-theme="HADES"].home-active .inline-tag {
+  font-family: 'HadesGame', 'VCR OSD Mono', ui-monospace, monospace;
+}
+
+/* MOBILE: phones */
+@media (max-width: 600px) {
+  .home-nav {
+    align-items: stretch;
+  }
+
+  .home-nav-header {
+    max-width: 100%;
+    margin-bottom: 0.25rem;
+    padding: 0 0.25rem;
+  }
+
+  .home-nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .home-nav-items {
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+  }
+
+  .home-nav-items.is-open {
+    display: flex;
+  }
+
+  .home-nav-item {
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+/* TABLET: small/medium screens */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .home-content {
+    padding: 5.5rem 2.5rem 2.5rem;
+    gap: 1.25rem;
+  }
+
+  .home-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .home-nav-item {
+    min-width: 150px;
+    text-align: center;
+  }
+
+  .home-panel > div {
+    padding: 1.4rem 1.8rem;
+  }
+
+  .fun-embed-frame {
+    height: 320px;
+  }
+
+  .about-portrait {
+    max-width: 160px;
+  }
+
+  .code-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+}
+
+/* DESKTOP / LARGE: roomy layout */
+@media (min-width: 1025px) {
+  .home-content {
+    padding: 6rem 8vw 3rem;
+  }
+
+  .home-panel {
+    max-width: 960px;
+  }
+
+  .fun-embed-frame {
+    height: 560px;
+  }
+
+  .code-columns {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
