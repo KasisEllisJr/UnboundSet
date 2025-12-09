@@ -14,27 +14,22 @@
 
   // Create and insert a single drifting glyph into the given layer
   function spawnGlyph(layer) {
-    // If no layer or home mode not active, don't spawn anything
     if (!layer || !document.body.classList.contains('home-active')) return;
 
     // Create a span element to display a single glyph character
     const span = document.createElement('span');
     span.className = 'glyph-char';
-    // Random glyph character from the GLYPHS string
     span.textContent = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
 
     // Random horizontal position (0–100% of viewport width)
     const x = Math.random() * 100;
-    // Random font size (in rem) for variety in glyph sizes
     const sizeRem = 0.7 + Math.random() * 1.4;
-    // Random animation duration so glyphs drift at different speeds
     const duration = 9 + Math.random() * 7;
 
     // Position and style the glyph
     span.style.left = x + '%';
     span.style.fontSize = sizeRem.toFixed(2) + 'rem';
     span.style.animationDuration = duration.toFixed(2) + 's';
-    // Slightly randomized opacity so some glyphs appear fainter
     span.style.opacity = (0.2 + Math.random() * 0.35).toFixed(2);
 
     // Add the glyph to the layer

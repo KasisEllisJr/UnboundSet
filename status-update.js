@@ -664,7 +664,7 @@ function playErrorSmallSound() {
 // Glitch effect applied to a text node, with optional error "ghosts"
 async function runGlitchOnText(node, baseText, durationMs = 1700) {
   const start = performance.now();
-  const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!?/#';
+  const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}|;:",.<>?/`~';
 
   const isErrorBase = baseText.startsWith('ERROR');
   const overlay = document.getElementById('transport-overlay');

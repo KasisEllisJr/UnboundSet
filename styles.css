@@ -310,7 +310,7 @@ body.calibrating { cursor: none; }
   font-family: 'VCR OSD Mono', ui-monospace, SFMono-Regular,
                Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
                monospace;
-  padding: 0.5rem 0.75rem;
+  padding: 0.25rem 0.75rem;
   transition: background-color 0.7s ease;
 }
 
